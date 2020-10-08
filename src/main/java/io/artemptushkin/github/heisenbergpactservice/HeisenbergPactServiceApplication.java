@@ -2,6 +2,8 @@ package io.artemptushkin.github.heisenbergpactservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class HeisenbergPactServiceApplication {
@@ -10,4 +12,8 @@ public class HeisenbergPactServiceApplication {
 		SpringApplication.run(HeisenbergPactServiceApplication.class, args);
 	}
 
+	@Bean
+	RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 }

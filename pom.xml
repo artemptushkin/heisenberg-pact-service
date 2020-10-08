@@ -26,6 +26,14 @@
 			<version>4.1.8</version>
 		</dependency>
 
+		<!-- for consumer + provider case -->
+		<dependency>
+			<groupId>au.com.dius.pact.consumer</groupId>
+			<artifactId>junit5</artifactId>
+			<version>4.1.7</version>
+		</dependency>
+		<!-- for consumer + provider case -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -55,21 +63,18 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!--<plugin>
-				<groupId>au.com.dius</groupId>
-				<artifactId>pact-jvm-provider-maven</artifactId>
+			<plugin>
+				<!-- for consumer + provider -->
+				<groupId>au.com.dius.pact.provider</groupId>
+				<artifactId>maven</artifactId>
 				<version>4.1.7</version>
 				<configuration>
 					<pactBrokerUrl>https://hello.pact.dius.com.au</pactBrokerUrl>
 					<pactBrokerToken>GJADqmiVcrtQu5rjyxpjIQ</pactBrokerToken>
-					<tags>adhoc-test</tags>
-					<serviceProviders>
-						<serviceProvider>
-							<name>heisenberg-pact-service</name>
-						</serviceProvider>
-					</serviceProviders>
+					<tags>test, prod</tags>
 				</configuration>
-			</plugin>-->
+				<!-- for consumer + provider -->
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
