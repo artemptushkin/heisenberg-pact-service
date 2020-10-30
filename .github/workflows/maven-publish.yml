@@ -23,7 +23,6 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -39,6 +38,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: build
-        run: ./mvnw clean package -Dpact.consumer.tags=$GITHUB_REF,test
+        #pactbroker.consumerversionselectors.tags - takes to verify, pact.consumer.tags - publishes as consumer
+        run: ./mvnw clean package -Dpact.consumer.tags=$GITHUB_REF -Dpactbroker.consumerversionselectors.tags=$GITHUB_REF,test,prod -Dpact.provider.tag=heh
       - name: publish pacts
-        run: ./mvnw pact:publish -Dpact.consumer.tags=$GITHUB_REF,test
+        run: ./mvnw pact:publish -Dpact.consumer.tags=$GITHUB_REF
