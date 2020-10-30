@@ -19,6 +19,11 @@ on:
         description: pact tags separated by comma
         default: test
         required: false
+      pactPublish:
+        description: pact tags separated by comma
+        default: true
+        required: false
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
