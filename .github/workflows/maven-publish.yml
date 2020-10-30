@@ -13,15 +13,7 @@ on:
     inputs:
       pactConsumerTags:
         description: pact tags separated by comma
-        default: $GITHUB_REF
-        required: false
-      pactProviderTags:
-        description: pact tags separated by comma
         default: test
-        required: false
-      pactPublish:
-        description: pact tags separated by comma
-        default: true
         required: false
 
 
@@ -50,5 +42,5 @@ jobs:
         run: ./mvnw clean package
       - name: publish pacts
         if: ${{ inputs.pactPublish }}
-        run: ./mvnw pact:publish -Dpact.consumer.tags=${{ pactConsumerTags }}
+        run: ./mvnw pact:publish -Dpact.consumer.tags=${{ $GITHUB_REF }}
 
