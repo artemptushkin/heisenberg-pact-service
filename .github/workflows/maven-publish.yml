@@ -32,8 +32,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: setup-env-variables-from-inputs
         if: ${{ github.event.inputs.pactConsumerTags != '' }}
-        env:
-          PACT_CONSUMER_TAGS: ${{ github.event.inputs.pactConsumerTags }}
+        run: echo "${{ github.event.inputs.pactConsumerTags }}" >> $PACT_CONSUMER_TAGS
       - name: setup-env-variables
         if: ${{ github.event.inputs == '' }}
         run: echo "$GITHUB_REF,test" >> $PACT_CONSUMER_TAGS
