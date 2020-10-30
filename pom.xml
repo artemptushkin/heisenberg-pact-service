@@ -71,7 +71,6 @@
 				<configuration>
 					<pactBrokerUrl>https://hello.pactflow.io/</pactBrokerUrl>
 					<pactBrokerToken>GJADqmiVcrtQu5rjyxpjIQ</pactBrokerToken>
-					<tags>test, prod</tags>
 				</configuration>
 				<!-- for consumer + provider -->
 			</plugin>

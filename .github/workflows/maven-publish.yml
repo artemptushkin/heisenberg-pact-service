@@ -13,7 +13,7 @@ on:
     inputs:
       pactConsumerTags:
         description: pact tags separated by comma
-        default: ''
+        default: $GITHUB_REF,test
         required: false
 
 
@@ -21,8 +21,6 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    env:
-      PACT_CONSUMER_TAGS:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -30,12 +28,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: setup-env-variables-from-inputs
-        if: ${{ github.event.inputs.pactConsumerTags != '' }}
-        run: echo "{PACT_CONSUMER_TAGS}=${{ github.event.inputs.pactConsumerTags }}" >> $GITHUB_ENV
       - name: setup-env-variables
-        if: ${{ github.event.inputs == '' }}
-        run: echo "{PACT_CONSUMER_TAGS}={$GITHUB_REF,test}" >> $GITHUB_ENV
+        run: echo "{PACT_CONSUMER_TAGS}=${{ github.event.inputs.pactConsumerTags }}" >> $GITHUB_ENV
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
