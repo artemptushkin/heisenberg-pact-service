@@ -11,7 +11,11 @@ on:
     branches: [ master ]
   workflow_dispatch:
     inputs:
-      pactTags:
+      pactConsumerTags:
+        description: pact tags separated by comma
+        default: $GITHUB_REF
+        required: false
+      pactProviderTags:
         description: pact tags separated by comma
         default: test
         required: false
@@ -40,4 +44,6 @@ jobs:
       - name: build
         run: ./mvnw clean package
       - name: publish pacts
-        run: ./mvnw pact:publish -Dpact.consumer.tags=$GITHUB_REF
+        if: ${{ pactPublish }}
+        run: ./mvnw pact:publish -Dpact.consumer.tags=${{ pactConsumerTags }}
+
