@@ -49,6 +49,6 @@ jobs:
       - name: build
         run: ./mvnw clean package
       - name: publish pacts
-        if: ${{ pactPublish }}
+        if: ${{ inputs.pactPublish }}
         run: ./mvnw pact:publish -Dpact.consumer.tags=${{ pactConsumerTags }}
 
