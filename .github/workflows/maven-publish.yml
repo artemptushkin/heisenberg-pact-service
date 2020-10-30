@@ -38,7 +38,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: build
-        #pactbroker.consumerversionselectors.tags - takes to verify, pact.consumer.tags - publishes as consumer
-        run: ./mvnw clean package -Dpact.consumer.tags=$GITHUB_REF -Dpactbroker.consumerversionselectors.tags=$GITHUB_REF,test,prod -Dpact.provider.tag=heh
+        #pactbroker.consumerversionselectors.tags - takes to verify as provider
+        #pact.provider.tag - publish verification result as provider
+        run: ./mvnw clean package -Dpactbroker.consumerversionselectors.tags=$GITHUB_REF,test,prod -Dpact.provider.tag=$GITHUB_REF
       - name: publish pacts
+        #pact.consumer.tags - publishes as consumer
         run: ./mvnw pact:publish -Dpact.consumer.tags=$GITHUB_REF
