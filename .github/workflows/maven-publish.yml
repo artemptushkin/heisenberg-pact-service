@@ -47,7 +47,6 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: build
-        run: ./mvnw clean package -Dpact.consumer.tags=${{ $PACT_CONSUMER_TAGS }}
+        run: ./mvnw clean package -Dpact.consumer.tags=$PACT_CONSUMER_TAGS
       - name: publish pacts
-        run: ./mvnw pact:publish -Dpact.consumer.tags=${{ $PACT_CONSUMER_TAGS }}
-
+        run: ./mvnw pact:publish -Dpact.consumer.tags=$PACT_CONSUMER_TAGS
