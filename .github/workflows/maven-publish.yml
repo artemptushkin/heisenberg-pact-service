@@ -25,6 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -40,7 +44,7 @@ jobs:
       - name: build
         #pactbroker.consumerversionselectors.tags - takes to verify as provider
         #pact.provider.tag - publish verification result as provider
-        run: ./mvnw clean package -Dpactbroker.consumerversionselectors.tags=$GITHUB_REF,test,prod -Dpact.provider.tag=$GITHUB_REF
+        run: ./mvnw clean package -Dpactbroker.consumerversionselectors.tags=$GITHUB_REF,test,prod -Dpact.provider.tag=${{ steps.extract_branch.outputs.branch }}
       - name: publish pacts
         #pact.consumer.tags - publishes as consumer
-        run: ./mvnw pact:publish -Dpact.consumer.tags=$GITHUB_REF
+        run: ./mvnw pact:publish -Dpact.consumer.tags=${{ steps.extract_branch.outputs.branch }}
