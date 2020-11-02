@@ -45,7 +45,11 @@ jobs:
       - name: build
         #pactbroker.consumerversionselectors.tags - takes to verify as provider
         #pact.provider.tag - publish verification result as provider
-        run: ./mvnw clean package -Dpactbroker.consumerversionselectors.tags=$GIT_BRANCH,test,prod -Dpact.provider.tag=$GIT_BRANCH -Dpact.verifier.publishResults=true
+        run: |
+            ./mvnw clean package \
+              -Dpactbroker.consumerversionselectors.tags=$GIT_BRANCH,test,prod \
+              -Dpact.provider.tag=$GIT_BRANCH -Dpact.verifier.publishResults=true \
+              -Dpact.provider.version=$GIT_COMMIT
       - name: publish pacts
         run: ./mvnw pact:publish -Dpact.consumer.tags=$GIT_BRANCH -Dpact.consumer.version=$GIT_COMMIT
   deploy:
