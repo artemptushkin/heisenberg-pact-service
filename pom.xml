@@ -85,7 +85,7 @@
 						</property>
 						<property>
 							<name>pactbroker.tags</name>
-							<value>i-am-pactbroker-tags-tag</value>
+							<value>dev</value>
 						</property>
 						<property>
 							<name>pact.provider.version</name>
@@ -93,7 +93,7 @@
 						</property>
 						<property>
 							<name>pact.provider.tag</name>
-							<value>i-am-provider-tag</value>
+							<value>dev</value>
 						</property>
 					</systemProperties>
 				</configuration>
