@@ -71,7 +71,7 @@ jobs:
             -e PACT_BROKER_TOKEN \
             pactfoundation/pact-cli:latest \
             broker can-i-deploy \
-            -a jesse-pinkman \
+            -a heisenberg \
             -e ${GIT_COMMIT} \
             -t test
       - name: deploy to test
@@ -86,6 +86,6 @@ jobs:
             -e PACT_BROKER_TOKEN \
             pactfoundation/pact-cli:latest \
             broker create-version-tag \
-            -a jesse-pinkman \
+            -a heisenberg \
             -e ${GIT_COMMIT} \
             -t test
