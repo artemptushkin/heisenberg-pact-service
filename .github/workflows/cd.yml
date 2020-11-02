@@ -1,0 +1,89 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI with Pact contracts test
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      pact.consumer.tags:
+        description: pact tags separated by comma
+        default: test
+        required: false
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Extract git params
+        run: |
+          echo "GIT_COMMIT=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+          echo "GIT_BRANCH=`echo ${GITHUB_REF#refs/heads/}`" >> $GITHUB_ENV
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11.0
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: build
+        #pactbroker.consumerversionselectors.tags - takes to verify as provider
+        #pact.provider.tag - publish verification result as provider
+        run: ./mvnw clean package -Dpactbroker.consumerversionselectors.tags=$GIT_BRANCH,test,prod -Dpact.provider.tag=$GIT_BRANCH
+      - name: publish pacts
+        run: ./mvnw pact:publish -Dpact.consumer.tags=$GIT_BRANCH -Dpact.consumer.version=$GIT_COMMIT
+  deploy:
+    needs: [build]
+    env:
+      PACT_BROKER_BASE_URL: https://hello.pact.dius.com.au/
+      PACT_BROKER_TOKEN: GJADqmiVcrtQu5rjyxpjIQ
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Extract git params
+        run: |
+          echo "GIT_COMMIT=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+          echo "GIT_BRANCH=`echo ${GITHUB_REF#refs/heads/}`" >> $GITHUB_ENV
+      - uses: satackey/action-docker-layer-caching@v0.0.8
+        #Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
+      - name: can i deploy to test
+        run: |
+          docker run --rm \
+            -e PACT_BROKER_BASE_URL \
+            -e PACT_BROKER_TOKEN \
+            pactfoundation/pact-cli:latest \
+            broker can-i-deploy \
+            -a jesse-pinkman \
+            -e ${GIT_COMMIT} \
+            -t prod
+      - name: deploy to test
+        run: |
+          echo "================================================="
+          echo "DEPLOYING APPLICATION"
+          echo "================================================="
+      - name: create test tag
+        run: |
+          docker run --rm \
+            -e PACT_BROKER_BASE_URL \
+            -e PACT_BROKER_TOKEN \
+            pactfoundation/pact-cli:latest \
+            broker create-version-tag \
+            -a jesse-pinkman \
+            -e ${GIT_COMMIT} \
+            -t prod
