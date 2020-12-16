@@ -42,6 +42,7 @@ class HeisenbergPactServiceApplicationTests {
 				.given("say-my-name")
 				.uponReceiving("GET REQUEST")
 				.path("/fring/say-my-name")
+				.method("GET")
 				.willRespondWith()
 				.status(200)
 				.body(new PactDslJsonBody()
