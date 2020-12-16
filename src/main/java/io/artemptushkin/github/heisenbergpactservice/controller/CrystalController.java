@@ -31,7 +31,7 @@ public class CrystalController {
 			List<Crystal> crystals = List.of(
 					Crystal
 							.builder()
-							.color("red")
+							.color("green")
 							.id(1L)
 							.build(),
 					Crystal

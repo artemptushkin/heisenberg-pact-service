@@ -46,7 +46,7 @@ class HeisenbergPactServiceApplicationTests {
 				.willRespondWith()
 				.status(200)
 				.body(new PactDslJsonBody()
-						.stringValue("name1", "heisenberg")
+						.stringValue("name", "heisenberg")
 				)
 				.toPact();
 	}
