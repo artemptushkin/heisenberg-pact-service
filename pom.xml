@@ -23,16 +23,8 @@
 		<dependency>
 			<groupId>au.com.dius.pact.provider</groupId>
 			<artifactId>junit5spring</artifactId>
-			<version>4.1.7</version>
+			<version>4.1.12</version>
 		</dependency>
-
-		<!-- for consumer + provider case -->
-		<dependency>
-			<groupId>au.com.dius.pact.consumer</groupId>
-			<artifactId>junit5</artifactId>
-			<version>4.1.7</version>
-		</dependency>
-		<!-- for consumer + provider case -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -64,17 +56,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<!-- for consumer + provider -->
-				<groupId>au.com.dius.pact.provider</groupId>
-				<artifactId>maven</artifactId>
-				<version>4.1.7</version>
-				<configuration>
-					<pactBrokerUrl>https://hello.pactflow.io/</pactBrokerUrl>
-					<pactBrokerToken>GJADqmiVcrtQu5rjyxpjIQ</pactBrokerToken>
-				</configuration>
-				<!-- for consumer + provider -->
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
@@ -84,8 +65,12 @@
 							<value>true</value>
 						</property>
 						<property>
+							<name>pactbroker.consumerversionselectors.tags</name>
+							<value>develop</value>
+						</property>
+						<property>
 							<name>pactbroker.tags</name>
-							<value>dev</value>
+							<value>develop</value>
 						</property>
 						<property>
 							<name>pact.provider.version</name>
@@ -93,7 +78,7 @@
 						</property>
 						<property>
 							<name>pact.provider.tag</name>
-							<value>dev</value>
+							<value>develop</value>
 						</property>
 					</systemProperties>
 				</configuration>
