@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>io.artemptushkin.github</groupId>
 	<artifactId>heisenberg-pact-service</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>scenario-1</version>
 	<name>heisenberg-pact-service</name>
 	<description>Demo project for Spring Boot</description>
 
