@@ -3,9 +3,6 @@ package io.artemptushkin.github.heisenbergpactservice.controller;
 import java.math.BigDecimal;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/crystals/v4")
+@RequestMapping("/v1/crystals")
 @RequiredArgsConstructor
 public class CrystalController {
 
@@ -38,19 +35,5 @@ public class CrystalController {
 				.crystals(crystals)
 				.amount(price.multiply(BigDecimal.valueOf(amount)))
 				.build();
-	}
-
-	@Data
-	@NoArgsConstructor
-	@AllArgsConstructor
-	private static class FringResponse {
-		private String name;
-	}
-
-	@Data
-	@NoArgsConstructor
-	@AllArgsConstructor
-	private static class FringRequest {
-		private Integer amount;
 	}
 }
