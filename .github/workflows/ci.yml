@@ -45,9 +45,10 @@ jobs:
       - name: build
         #pactbroker.consumerversionselectors.tags - takes to verify as provider
         #pact.provider.tag - publish verification result as provider
+        #!!Attention!! the tag of consumer values are equal to a test branch on demo purposes, see master for the target pipeline implementation
         run: |
             ./mvnw clean package \
-              -Dpactbroker.consumerversionselectors.tags=$GIT_BRANCH,test,prod \
+              -Dpactbroker.consumerversionselectors.tags=scenario/1-consumer-first \
               -Dpact.provider.tag=$GIT_BRANCH -Dpact.verifier.publishResults=true \
               -Dpact.provider.version=$GIT_COMMIT
   deploy:

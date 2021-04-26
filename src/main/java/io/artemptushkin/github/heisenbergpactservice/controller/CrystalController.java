@@ -1,5 +1,8 @@
 package io.artemptushkin.github.heisenbergpactservice.controller;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,23 @@ public class CrystalController {
 
 	@GetMapping
 	public CrystalsResponse get(@RequestParam Integer amount) {
-		return null;
+		BigDecimal price = new BigDecimal("10.0");
+		List<Crystal> crystals = List.of(
+				Crystal
+						.builder()
+						.color("red")
+						.id(1L)
+						.build(),
+				Crystal
+						.builder()
+						.color("blue")
+						.id(2L)
+						.build()
+		);
+		return CrystalsResponse
+				.builder()
+				.crystals(crystals)
+				.amount(price.multiply(BigDecimal.valueOf(amount)))
+				.build();
 	}
 }
