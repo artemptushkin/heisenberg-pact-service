@@ -74,7 +74,6 @@ jobs:
             pactfoundation/pact-cli:latest \
             broker can-i-deploy \
             --pacticipant=heisenberg \
-            --latest=$GIT_BRANCH \
             --version=${GIT_COMMIT} \
             --to=test
       - name: deploy to test
