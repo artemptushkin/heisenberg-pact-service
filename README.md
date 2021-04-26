@@ -1,7 +1,11 @@
 ### Sample Pact provider service
 
 This service along with [Jessy-pinkman](https://github.com/artemptushkin/jesse-pinkman-pact-service) and [GustavoFring](https://github.com/artemptushkin/gustavo-fring-pact-service)
-is a set of demo services for pact contract testing pipeline demonstrations.
+is a set of example services for pact contract testing pipeline demonstrations.
+
+You can use these repositories as
+* Example of contract testing pipeline with Pact Broker
+* Use-cases for consumer-driven-contracts development
 
 -----
 
