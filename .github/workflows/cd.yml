@@ -71,9 +71,10 @@ jobs:
             -e PACT_BROKER_TOKEN \
             pactfoundation/pact-cli:latest \
             broker can-i-deploy \
-            -a heisenberg \
-            -e ${GIT_COMMIT} \
-            -t prod
+            --pacticipant=heisenberg \
+            --latest=$GIT_BRANCH \
+            --version=${GIT_COMMIT} \
+            --to=prod
       - name: deploy to test
         run: |
           echo "================================================="
@@ -86,6 +87,6 @@ jobs:
             -e PACT_BROKER_TOKEN \
             pactfoundation/pact-cli:latest \
             broker create-version-tag \
-            -a heisenberg \
-            -e ${GIT_COMMIT} \
-            -t prod
+            --pacticipant=heisenberg \
+            --version=${GIT_COMMIT} \
+            --to=prod
