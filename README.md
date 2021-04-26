@@ -1,5 +1,10 @@
 ### Sample Pact provider service
 
+This service along with [Jessy-pinkman](https://github.com/artemptushkin/jesse-pinkman-pact-service) and [GustavoFring](https://github.com/artemptushkin/gustavo-fring-pact-service)
+is a set of demo services for pact contract testing pipeline demonstrations.
+
+-----
+
 The sample Pact provider service based on Spring Boot with contract testing CI/CD pipeline based on GitHub Actions.
 
 This repository implements the contract testing pipeline following [the general documentation](https://docs.pact.io/pact_nirvana/step_4/#provider-pipeline).
@@ -82,11 +87,13 @@ with code updates to meet Jessy-pinkman's expectations
 6. Consumer reruns pipeline without any code updates
 7. Consumer merges to master and deploys to production
 
+**Resume**:
+* With `can-i-deploy step` consumer isn't allowed to deploy until all the pacts verified and providers deployed
+* In consumer driven contracts consumer leads the API design development, but the provider deploys first  
+
 #### scenario-2
 
 Heisenberg as provider goes breaking bad and break backward compatibility with Jessy-pinkman.
-
-Branch: https://github.com/artemptushkin/heisenberg-pact-service/tree/1-provider-breaks-backward-compatibility
 
 1. Jessy-pinkman expects this body in response on [prod](https://hello.pactflow.io/pacts/provider/heisenberg/consumer/jesse-pinkman/version/6321fdef)
 ```json
@@ -124,6 +131,46 @@ Namely, one `red` and one `blue` crystals
         
             1.1) BodyMismatch: $.crystals.0.color BodyMismatch: $.crystals.0.color Expected 'red' (String) but received 'green' (String)
 
+**Resume**:
+* To prevent deploying provider with breaking changes verify him against all the tags, including `prod`,
+it will guarantee that all the expectations from consumers at production will be met.
+
 #### scenario-3
 
 Heisenberg as provider verified not all the pacts he is expected to.
+
+1. Gustavo-fring consumer expects on production that heisenberg on GET request to `/heisenberg/v1/cook` will respond with:
+    ```json
+    {
+        "crystals": [
+            {
+                "color": "red",
+                "id": 1
+            },
+            {
+                "color": "blue",
+                "id": 2
+            }
+        ]
+    }
+    ```
+    The expectations formalized by [the contract in Pact Broker](https://hello.pactflow.io/pacts/provider/heisenberg/consumer/gustavo-fring/version/0.0.1-SNAPSHOT) 
+2. The Pact Broker has the next state where the pact between Gustavo-fring and Heisenberg hasn't yet been verified
+![](scenarios/scenario-3-provider-verified-no-all-the-contracts.png)
+
+3. :white_check_mark: Heisenberg tests pass on any next merge to master as he doesn't expect any new consumer:
+    ```bash
+    ./mvnw test -Dpactbroker.consumerversionselectors.tags=prod
+    ```
+
+4. :x: Heisenberg fails to deploy the latest version with tag `prod` on production due to violated `can-i-deploy` step:
+    ```bash
+    pact-broker can-i-deploy --pacticipant=heisenberg --all=prod --to=prod
+    ```
+![](scenarios/scenario-3-provider-can-i-deploy-fails.png)
+
+**Resume**:
+* To prevent deploying provider without all verified contracts use the parameter `--all=$TAG`
+* If providers tests pass on some reason, `can-i-deploy` and Pact Broker prevents deploying breaking changes  
+
+> This would be used when ensuring you have backwards compatiblity with all production mobile clients for a provider. Note, when using this option, you need to specify dependency explicitly

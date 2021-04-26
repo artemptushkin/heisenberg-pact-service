@@ -73,6 +73,7 @@ jobs:
             broker can-i-deploy \
             --pacticipant=heisenberg \
             --version=${GIT_COMMIT} \
+            --all=prod \
             --to=prod
       - name: deploy to test
         run: |
