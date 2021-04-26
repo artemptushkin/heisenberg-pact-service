@@ -62,7 +62,7 @@
 					<systemProperties>
 						<property>
 							<name>pact.verifier.publishResults</name>
-							<value>true</value>
+							<value>false</value>
 						</property>
 						<property>
 							<name>pactbroker.consumerversionselectors.tags</name>
