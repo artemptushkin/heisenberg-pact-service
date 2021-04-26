@@ -88,4 +88,4 @@ jobs:
             broker create-version-tag \
             --pacticipant=heisenberg \
             --version=${GIT_COMMIT} \
-            --to=prod
+            --tag=prod
